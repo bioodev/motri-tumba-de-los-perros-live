@@ -1,8 +1,34 @@
-# React + Vite
+# motri-js-audio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Reproductor de audio en el navegador para *Motri — La tumba de los perros*.
 
-Currently, two official plugins are available:
+- **Stack:** React 18 + Vite 6, `wavesurfer.js` (onda + espectrograma + timeline), `lucide-react`.
+- **Audio:** `public/audio/audio.m4a`, cacheado en el navegador con IndexedDB la primera vez.
+- **Estado:** reproductor funcionando (onda, espectrograma, timeline, play/pausa). El visualizador p5 está escrito pero desactivado.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Uso
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build
+npm run preview
+```
+
+## Estructura
+
+```
+src/
+├── App.jsx                     # carga el audio una vez y monta el reproductor
+├── components/
+│   ├── AudioPlayer.jsx         # wavesurfer: onda, espectrograma, timeline, controles
+│   ├── AudioVisualizer.jsx     # envoltorio del visualizador
+│   └── P5Visualization.jsx     # barras de frecuencia con p5 (no montado)
+└── utils/audioUtils.js         # fetch + caché del audio en IndexedDB
+```
+
+## Notas
+
+- El audio son ~23 MB: la primera carga descarga y decodifica; después sale de IndexedDB.
+- No se fija `sampleRate` en wavesurfer (resampleaba el audio y alargaba la decodificación).
+- El `AudioContext` para el analyser se reanuda con el clic de play (los navegadores lo crean suspendido).
