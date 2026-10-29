@@ -1,4 +1,4 @@
-# motri-js-audio
+# motri-player
 
 Reproductor de audio en el navegador para *Motri — La tumba de los perros*.
 
